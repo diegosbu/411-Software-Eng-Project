@@ -1,0 +1,25 @@
+{
+  "name": "411-software-eng-project",
+  "version": "1.0.0",
+  "description": "Group Web App",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegosbu/411-Software-Eng-Project.git"
+  },
+  "author": "411 Group (Diego Sanchez, etc.)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegosbu/411-Software-Eng-Project/issues"
+  },
+  "homepage": "https://github.com/diegosbu/411-Software-Eng-Project#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
