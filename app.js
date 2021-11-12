@@ -10,6 +10,9 @@ app.get('/', function (req, res) {
     res.render(index);
 })
 
+// app.post('/rquery', function (req, res) {
+
+// })
 
 // Server
 
