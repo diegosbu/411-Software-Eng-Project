@@ -1,14 +1,14 @@
-// import { apiK } from 'config';
-
 // Module Dependencies 
 const ejs = require('ejs');
+const config = require('./config');
 const express = require('express');
 const yelp = require('yelp-fusion');
 const app = express();
 
+console.log(config.YelpKey, config.GoogleClientID);
 
 // API credentials
-const apiKey = 'Qx5b42fSnJ716nDQ5q2IIE8-H8yw3EhqBxEmCKycwy0xhfBJLVBfbeKle4HvdG6RiF3NaTUZzQOEctR_WQCn4niYJYjFOuvSeFdMbpVGTdklQjKW_yHpbcMLT8GOYXYx'
+const apiKey = config.YelpKey;
 const client = yelp.client(apiKey);
 
 
