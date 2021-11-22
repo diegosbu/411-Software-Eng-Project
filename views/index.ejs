@@ -5,16 +5,26 @@
 <body>
     <h1>I like this food</h1>
 
+    <% if (dispName) { %>
+        <h2> Hello <%= dispName %> ! </h2>
+    <% } %>
+
     <form action = '/rquery' method = post>
         <label>Restaurant Name</label>
         <input type = 'text' name = 'rname' required  = 'true'></input>
 
         <label>Location</label>
         <input type = 'text' name = 'place' required = 'true'></input>
-        
+
         <input type = submit value = 'search'/>
 
     </form>
+
+    <% if (dispName) { %>
+        <a href="/logout">Sign out</a>
+    <% } else { %>
+        <a href="/auth/google">Sign in with Google</a>
+    <% } %>
 
 </body>
 </html>

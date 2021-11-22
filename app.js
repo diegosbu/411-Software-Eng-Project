@@ -1,14 +1,22 @@
-// Module Dependencies 
+/* Module Dependencies */
 const ejs = require('ejs');
 const config = require('./config');
+const session = require('express-session');
 const express = require('express');
 const yelp = require('yelp-fusion');
+const passport = require('passport');
+require('./oauth');
+
 const app = express();
 
-console.log(config.YelpKey, config.GoogleClientID);
+
+app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // API credentials
-const apiKey = config.YelpKey;
+const apiKey = config.yelpKey;
 const client = yelp.client(apiKey);
 
 
@@ -22,13 +30,19 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 
-// Routes
+/* Routes */
 
-app.get('/', function (req, res) {
-    res.render('index');
+// Homepage
+app.get('/', (req, res) => {
+    if (req.user) {
+        res.render('index', {dispName: req.user.displayName});
+    } else {
+        res.render('index', {dispName: false});
+    }
 });
 
-app.post('/rquery', function (req, res) {
+// Results page
+app.post('/rquery', (req, res) => {
     // console.log(req.body.rname);
     const rname = req.body.rname;
     const pname = req.body.place;
@@ -49,8 +63,32 @@ app.post('/rquery', function (req, res) {
       });
 });
 
+// Auth scope set and initialized
+app.get('/auth/google', 
+    passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+));
 
-// Server
+// Checks if auth is successful
+app.get('/auth/google/callback',
+  passport.authenticate( 'google', { failureRedirect: '/auth/google/failure' }),
+  (req, res) => {
+    res.redirect('/');
+});
+
+// Logout handler
+app.get('/logout', (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect('/');
+});
+
+// Failed auth handler
+app.get('/auth/google/failure', (req, res) => {
+    res.send('Failed to authenticate..'); 
+});
+
+
+/* Server */
 
 const PORT = process.env.PORT || 5000;
 
