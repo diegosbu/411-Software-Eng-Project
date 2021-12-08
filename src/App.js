@@ -1,24 +1,40 @@
 import React,{ Component } from 'react'
 import axios from 'axios';
-const apiKey = process.env.YELPKEY
+const apiKey = ''
 const apiKey2 = 'Bearer ' + apiKey
 
 class Form extends Component{
   constructor(props){
     super(props)
-    this.state = { restaurantName:'', location:''}
+    this.state = { restaurantName: '', location: '', results: []}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.makeGetRequest = this.makeGetRequest.bind(this)
   }
   
-  // Form submitting logic, prevent default page refresh 
-  handleSubmit(event){
-    event.preventDefault();
-    // const { restaurantName, location } = this.state
+  makeGetRequest(config) {
+    return new Promise(function (resolve, reject) {
+      axios(config).then(
+            (response) => {
+                var result = response.data;
+                console.log('Processing Request');
+                resolve(result);
+            },
+                (error) => {
+                reject(error);
+            }
+        );
+    });
+}
 
+  // Form submitting logic, prevent default page refresh 
+  async handleSubmit(event){
+    event.preventDefault();
+    const { restaurantName, location } = this.state
+    
     var config = {
       method: 'get',
-      url: 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=42&longitude=-72',
+      url: 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + restaurantName + '&location=' + location,
       headers: { 
         'user-key': apiKey, 
         'Accept': 'application/json', 
@@ -28,14 +44,10 @@ class Form extends Component{
         'Authorization': apiKey2
       }
     };
-    
-    axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+
+    var result = await this.makeGetRequest(config);
+
+    this.setState({ results: Object.values(result)});
   }
   
   // Method causes to store all the values
@@ -70,6 +82,8 @@ class Form extends Component{
         <div>
           <button>Search!</button>
         </div>
+
+        <h2>Results are: {this.state.results.map(result => <div>{JSON.stringify(result)}</div>)}</h2>
       </form>
     )
   }
