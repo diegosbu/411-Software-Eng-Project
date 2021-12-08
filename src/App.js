@@ -1,5 +1,6 @@
 import React,{ Component } from 'react'
 import axios from 'axios';
+import Application from './Album'
 const apiKey = ''
 const apiKey2 = 'Bearer ' + apiKey
 
@@ -84,6 +85,8 @@ class Form extends Component{
         </div>
 
         <h2>Results are: {this.state.results.map(result => <div>{JSON.stringify(result)}</div>)}</h2>
+        
+        <Application />
       </form>
     )
   }
