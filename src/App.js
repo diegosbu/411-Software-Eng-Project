@@ -1,6 +1,7 @@
 import React,{ Component } from 'react'
 import axios from 'axios';
-const apiKey = 'Bearer Qx5b42fSnJ716nDQ5q2IIE8-H8yw3EhqBxEmCKycwy0xhfBJLVBfbeKle4HvdG6RiF3NaTUZzQOEctR_WQCn4niYJYjFOuvSeFdMbpVGTdklQjKW_yHpbcMLT8GOYXYx'
+const apiKey = process.env.YELPKEY
+const apiKey2 = 'Bearer ' + apiKey
 
 class Form extends Component{
   constructor(props){
@@ -19,12 +20,12 @@ class Form extends Component{
       method: 'get',
       url: 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=42&longitude=-72',
       headers: { 
-        'user-key': 'Qx5b42fSnJ716nDQ5q2IIE8-H8yw3EhqBxEmCKycwy0xhfBJLVBfbeKle4HvdG6RiF3NaTUZzQOEctR_WQCn4niYJYjFOuvSeFdMbpVGTdklQjKW_yHpbcMLT8GOYXYx', 
+        'user-key': apiKey, 
         'Accept': 'application/json', 
         'Content-Type': 'application/json', 
         'Access-Control-Allow-Headers': '*', 
         'Origin': '*', 
-        'Authorization': 'Bearer Qx5b42fSnJ716nDQ5q2IIE8-H8yw3EhqBxEmCKycwy0xhfBJLVBfbeKle4HvdG6RiF3NaTUZzQOEctR_WQCn4niYJYjFOuvSeFdMbpVGTdklQjKW_yHpbcMLT8GOYXYx'
+        'Authorization': apiKey2
       }
     };
     
@@ -35,27 +36,6 @@ class Form extends Component{
     .catch(function (error) {
       console.log(error);
     });
-    // Promise.props({
-    //   local: axios({
-    //     url: urlProxy,
-    //     params: params,
-    //     json: true,
-    //     method: 'GET',
-    //     withCredentials: true,
-    //     headers: {
-    //                 'user-key': apiKey,
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json',
-    //                 'Origin': 'http://localhost:3000',
-    //                 'Access-Control-Allow-Headers': '*',
-    //                 'Access-Control-Allow-Origin': 'http://localhost:3000',
-    //             },
-    //   }).then(res => console.log(res.data))
-    //     .catch(err => console.log(err))
-    //  })
-    //   .then(data => {
-    //     console.log(data)
-    //   });
   }
   
   // Method causes to store all the values
