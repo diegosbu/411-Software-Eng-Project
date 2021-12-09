@@ -1,95 +1,112 @@
-import React,{ Component } from 'react'
-import axios from 'axios';
-import Application from './Album'
-const apiKey = ''
-const apiKey2 = 'Bearer ' + apiKey
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Form from './Form'
 
-class Form extends Component{
-  constructor(props){
-    super(props)
-    this.state = { restaurantName: '', location: '', results: []}
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.makeGetRequest = this.makeGetRequest.bind(this)
-  }
-  
-  makeGetRequest(config) {
-    return new Promise(function (resolve, reject) {
-      axios(config).then(
-            (response) => {
-                var result = response.data;
-                console.log('Processing Request');
-                resolve(result);
-            },
-                (error) => {
-                reject(error);
-            }
-        );
-    });
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const theme = createTheme();
+
+export default function Album() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography type="title" color="inherit" style={{ flex: 1 }}>
+            Food Tinder
+          </Typography>
+          <div>
+            <Button variant="contained">
+              Login
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <main>
+        {/* Hero unit */}
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            pt: 8,
+            pb: 6,
+          }}
+        >
+          <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Food Tinder
+            </Typography>
+            <Form />
+          </Container>
+        </Box>
+        <Container sx={{ py: 8 }} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {cards.map((card) => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      // 16:9
+                      pt: '56.25%',
+                    }}
+                    image="https://source.unsplash.com/random"
+                    alt="random"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Heading
+                    </Typography>
+                    <Typography>
+                      This is a media card. You can use this section to describe the
+                      content.
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">View</Button>
+                    <Button size="small">Edit</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </main>
+      {/* Footer */}
+      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+        <Typography variant="h6" align="center" gutterBottom>
+          Footer
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
+          Something here to give the footer a purpose!
+        </Typography>
+      </Box>
+      {/* End footer */}
+    </ThemeProvider>
+  );
 }
-
-  // Form submitting logic, prevent default page refresh 
-  async handleSubmit(event){
-    event.preventDefault();
-    const { restaurantName, location } = this.state
-    
-    var config = {
-      method: 'get',
-      url: 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + restaurantName + '&location=' + location,
-      headers: { 
-        'user-key': apiKey, 
-        'Accept': 'application/json', 
-        'Content-Type': 'application/json', 
-        'Access-Control-Allow-Headers': '*', 
-        'Origin': '*', 
-        'Authorization': apiKey2
-      }
-    };
-
-    var result = await this.makeGetRequest(config);
-
-    this.setState({ results: Object.values(result)});
-  }
-  
-  // Method causes to store all the values
-  handleChange(event){
-    this.setState({
-      [event.target.name] : event.target.value
-    })
-  }
-  
-  // Return a controlled form
-  render(){
-    return(
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label htmlFor='restaurantName'>Restaurant Name</label>
-          <input 
-            name='restaurantName'
-            placeholder='Example Restaurant Name' 
-            value = {this.state.restaurantName}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor='location'>Location</label>
-          <input
-            name='location' 
-            placeholder='Example Location'
-            value={this.state.location}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div>
-          <button>Search!</button>
-        </div>
-
-        <h2>Results are: {this.state.results.map(result => <div>{JSON.stringify(result)}</div>)}</h2>
-        
-        <Application />
-      </form>
-    )
-  }
-}
-  
-export default Form

@@ -6,6 +6,8 @@
 
 In the project directory:
 
+- Add api keys to src/Form.js
+
 - Run `npm install` then `npm start` to run the app in the development mode.
 
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
