@@ -1,9 +1,16 @@
 import React,{ Component } from 'react'
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import axios from 'axios';
 const apiKey = ''
 const apiKey2 = 'Bearer ' + apiKey
 const apiKey3 = ''
+
 
 class Form extends Component{
   constructor(props){
@@ -118,7 +125,34 @@ class Form extends Component{
         <Button type="submit" variant="outlined">Search!</Button>
         </div>
 
-        <h2>Results are: {this.state.results.map(result => <div>{JSON.stringify(result)}</div>)}</h2>
+        <Container sx={{ py: 8 }} maxWidth="md">
+          <Grid container spacing={4}>
+            {this.state.results.map((card) => (
+              <Grid item key={JSON.stringify(card)} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      pt: '56.25%',
+                    }}
+                    image={Object.values(card)[2]}
+                    alt="random"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {Object.values(card)[0]}
+                    </Typography>
+                    <Typography>
+                    {Object.values(card)[1] + ' Food'}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
       </form>
     )
   }
