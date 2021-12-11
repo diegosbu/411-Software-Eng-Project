@@ -5,10 +5,11 @@ const session = require('express-session');
 const express = require('express');
 const yelp = require('yelp-fusion');
 const passport = require('passport');
+
 require('./oauth');
+const db = require('./mongodb');
 
 const app = express();
-
 
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -36,6 +37,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     if (req.user) {
         res.render('index', {dispName: req.user.displayName});
+        console.log(req.user);
     } else {
         res.render('index', {dispName: false});
     }
@@ -70,10 +72,7 @@ app.get('/auth/google',
 
 // Checks if auth is successful
 app.get('/auth/google/callback',
-  passport.authenticate( 'google', { failureRedirect: '/auth/google/failure' }),
-  (req, res) => {
-    res.redirect('/');
-});
+  passport.authenticate( 'google', { failureRedirect: '/auth/google/failure', successRedirect: '/' }));
 
 // Logout handler
 app.get('/logout', (req, res) => {
@@ -90,6 +89,9 @@ app.get('/auth/google/failure', (req, res) => {
 
 /* Server */
 
-const PORT = process.env.PORT || 5000;
+db.connect(() => {
+    app.listen(process.env.PORT || 5000)
+});
 
-app.listen(PORT)
+
+
