@@ -45,7 +45,6 @@ app.get('/', (req, res) => {
 
 // Results page
 app.post('/rquery', (req, res) => {
-    // console.log(req.body.rname);
     const rname = req.body.rname;
     const pname = req.body.place;
 
@@ -56,6 +55,14 @@ app.post('/rquery', (req, res) => {
 
     client.search(searchRequest).then(response => {
         const firstResult = response.jsonBody.businesses[0];
+        const name = firstResult.name;
+        const rating = firstResult.rating;
+        const price = firstResult.price;
+        const phone = firstResult.phone;
+        const city = firstResult.location.city;
+        const state = firstResult.location.state;
+        const zipcode = firstResult.location.zip_code;
+
         const prettyJson = JSON.stringify(firstResult, null, 4);
         res.render('result', {
             json: prettyJson
@@ -90,7 +97,7 @@ app.get('/auth/google/failure', (req, res) => {
 /* Server */
 
 db.connect(() => {
-    app.listen(process.env.PORT || 5000)
+    app.listen(process.env.PORT || 3000)
 });
 
 
