@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 const apiKey = ''
-const apiKey2 = 'Bearer ' + apiKey
-const apiKey3 = ''
+const apiKey2 = 'Bearer ' + apiKey;
+const apiKey3 = '';
 
 
 class Form extends Component{
