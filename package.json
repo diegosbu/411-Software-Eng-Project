@@ -1,32 +1,17 @@
 {
-  "name": "411-software-eng-project",
-  "version": "1.0.0",
-  "description": "Group Web App",
   "main": "app.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/diegosbu/411-Software-Eng-Project.git"
-  },
-  "author": "411 Group (Diego Sanchez, etc.)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/diegosbu/411-Software-Eng-Project/issues"
-  },
-  "homepage": "https://github.com/diegosbu/411-Software-Eng-Project#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mongodb": "^4.2.1",
-    "node-fetch": "^3.1.0",
+    "nodemon": "^2.0.15",
     "passport": "^0.5.0",
     "passport-google-oauth2": "^0.2.0",
     "yelp-fusion": "^3.0.0"

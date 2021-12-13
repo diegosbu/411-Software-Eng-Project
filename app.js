@@ -1,5 +1,4 @@
 /* Module Dependencies */
-const ejs = require('ejs');
 const config = require('./config');
 const session = require('express-session');
 const express = require('express');
@@ -10,19 +9,17 @@ require('./oauth');
 const db = require('./mongodb');
 
 const app = express();
+const cors = require('cors');
 
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// API credentials
-const apiKey = config.yelpKey;
-const client = yelp.client(apiKey);
-
-
-app.set('view engine', 'ejs');
-app.use(express.static('views'));
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 // Parse URL-encoded bodies
 app.use(express.urlencoded({extended: true}));
@@ -35,42 +32,18 @@ app.use(express.json());
 
 // Homepage
 app.get('/', (req, res) => {
+    res.redirect(`http://localhost:3000`);
+});
+
+// Retrieves and sends display name if user logged in
+app.get('/userinfo', (req, res) => {
     if (req.user) {
-        res.render('index', {dispName: req.user.displayName});
-        console.log(req.user);
+        const displayName = [req.user.displayName];
+        res.json(displayName);
     } else {
-        res.render('index', {dispName: false});
+        res.json([]);
     }
-});
-
-// Results page
-app.post('/rquery', (req, res) => {
-    const rname = req.body.rname;
-    const pname = req.body.place;
-
-    const searchRequest = {
-        term: rname,
-        location: pname
-    };
-
-    client.search(searchRequest).then(response => {
-        const firstResult = response.jsonBody.businesses[0];
-        const name = firstResult.name;
-        const rating = firstResult.rating;
-        const price = firstResult.price;
-        const phone = firstResult.phone;
-        const city = firstResult.location.city;
-        const state = firstResult.location.state;
-        const zipcode = firstResult.location.zip_code;
-
-        const prettyJson = JSON.stringify(firstResult, null, 4);
-        res.render('result', {
-            json: prettyJson
-        });
-      }).catch(e => {
-        console.log(e);
-      });
-});
+})
 
 // Auth scope set and initialized
 app.get('/auth/google', 
@@ -97,8 +70,5 @@ app.get('/auth/google/failure', (req, res) => {
 /* Server */
 
 db.connect(() => {
-    app.listen(process.env.PORT || 3000)
+    app.listen(5000)
 });
-
-
-

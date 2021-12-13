@@ -13,7 +13,6 @@ function connect(callback) {
         if (err) {
             return callback(err);
         }
-
         mongodb = client
         console.log(`connection successful: ${url}`)
         callback();

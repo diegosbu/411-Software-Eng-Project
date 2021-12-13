@@ -13,7 +13,7 @@ passport.use(new GoogleStrategy({
     // User info collection
     coll = client.get().db('411_Web_App').collection('users');
 
-    // Only updates if user doesn't exist in DB
+    // Only inserts if user doesn't already exist in DB
     coll.updateOne(
       { googleId: profile.id },
       { $setOnInsert: { googleId: profile.id, displayName: profile.displayName, email: profile.email } },
