@@ -7,7 +7,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Form from './Form'
+import Form from './Form';
+import Login from './Login';
 
 const theme = createTheme();
 
@@ -21,9 +22,7 @@ export default function Album() {
             Food Tinder
           </Typography>
           <div>
-            <Button variant="contained">
-              Login
-            </Button>
+            <Login />
           </div>
         </Toolbar>
       </AppBar>

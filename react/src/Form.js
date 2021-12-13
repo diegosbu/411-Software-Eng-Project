@@ -1,4 +1,4 @@
-import React,{ Component } from 'react'
+import React, { Component } from 'react'
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -7,9 +7,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
-const apiKey = ''
+const apiKey = 'Qx5b42fSnJ716nDQ5q2IIE8-H8yw3EhqBxEmCKycwy0xhfBJLVBfbeKle4HvdG6RiF3NaTUZzQOEctR_WQCn4niYJYjFOuvSeFdMbpVGTdklQjKW_yHpbcMLT8GOYXYx'
 const apiKey2 = 'Bearer ' + apiKey
-const apiKey3 = ''
+const apiKey3 = '24729344-c2d45a44f5688a04aec8bded7'
 
 
 class Form extends Component{
@@ -54,7 +54,7 @@ class Form extends Component{
       }
     };
 
-    // Get restaurant reccommendations
+    // Get restaurant recommendations
     var result = await this.makeGetRequest(config);
     let [dict] = Object.values(result)
     var arr = Object.values(dict)
@@ -89,6 +89,7 @@ class Form extends Component{
       categories.push(info);
     }
 
+    console.log(categories);
     this.setState({ results: categories});
   }
   
